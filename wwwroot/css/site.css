@@ -1,18 +1,108 @@
-html {
-  font-size: 14px;
+:root {
+    --ay-primaryColor: #0869b8;
+    --ay-primaryColorDark: #002a4e;
+    --ay-primaryColorLight: #edf5fc;
+    --ay-secondaryColor: #fff0d9;
+    --ay-secondaryColorLight: #fff8ec;
+    --ay-darkColor: #131313;
+    --ay-lightGray: #d9d9d9;
+    --ay-lightColor: #eeeeee;
+    --ay-titleFont: 'Fira Sans', sans-serif;
+    --ay-bodyFont: 'Roboto', sans-serif;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+html, body {
+    height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    background-color: var(--ay-primaryColorLight);
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 60px;
+    font-family: var(--ay-bodyFont);
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--ay-darkColor);
+}
+
+nav {
+    background-color: var(--ay-primaryColorDark);
+    font-family: var(--ay-titleFont);
+}
+
+.navText {
+    color: var(--ay-primaryColorLight) !important;
+    font-family: var(--ay-titleFont)
+}
+
+.navShadow {
+    box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+main {
+    background-color: var(--ay-primaryColorLight);
+}
+
+.content {
+    flex: 1 0 auto;
+    padding-top: 7.5rem;
+    padding-bottom: 2.5rem;
+}
+
+footer {
+    background-color: var(--ay-darkColor);
+    flex-shrink: 0;
+}
+
+
+/* button overrides */
+.btn-outline-primary {
+    color: var(--ay-darkColor);
+    border-color: var(--ay-primaryColor) !important;
+}
+
+    .btn-outline-primary:hover, .btn-outline-primary:active, .btn-outline-primary:focus {
+        border-color: var(--ay-secondaryColor) !important;
+        background-color: var(--ay-primaryColor);
+        color: var(--ay-lightColor) !important;
+    }
+
+.btn-primary {
+    color: white !important;
+    background-color: var(--ay-primaryColor) !important;
+    border-color: var(--ay-secondaryColor);
+}
+
+    .btn-primary:hover {
+        filter: brightness(1.2) !important;
+        border-color: var(--ay-primaryColorDark);
+    }
+
+    .btn-primary:active, .btn-primary:focus {
+        filter: brightness(1.2) !important;
+    }
+
+/* end button overrides */
+
+.btnLink {
+    width: 7rem;
+}
+
+.socialIcon {
+    color: var(--ay-primaryColorDark);
+    opacity: 0.9;
+    font-size: 2rem;
+    transition: all .4s;
+}
+
+    .socialIcon:hover {
+        color: var(--ay-primaryColor);
+        opacity: 1;
+    }
+
+.bodyText {
+    color: var(--ay-lightColor);
+    font-family: var(--ay-bodyFont);
+    font-weight: 300;
 }

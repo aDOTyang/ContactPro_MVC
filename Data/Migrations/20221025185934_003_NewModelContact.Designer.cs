@@ -3,6 +3,7 @@ using System;
 using ContactPro_MVC.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ContactPro_MVC.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221025185934_003_NewModelContact")]
+    partial class _003_NewModelContact
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,21 +23,6 @@ namespace ContactPro_MVC.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("CategoryContact", b =>
-                {
-                    b.Property<int>("CategoriesId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ContactsId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("CategoriesId", "ContactsId");
-
-                    b.HasIndex("ContactsId");
-
-                    b.ToTable("CategoryContact");
-                });
 
             modelBuilder.Entity("ContactPro_MVC.Models.AppUser", b =>
                 {
@@ -109,29 +96,6 @@ namespace ContactPro_MVC.Data.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("ContactPro_MVC.Models.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AppUserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
-
-                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("ContactPro_MVC.Models.Contact", b =>
@@ -335,32 +299,6 @@ namespace ContactPro_MVC.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("CategoryContact", b =>
-                {
-                    b.HasOne("ContactPro_MVC.Models.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ContactPro_MVC.Models.Contact", null)
-                        .WithMany()
-                        .HasForeignKey("ContactsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ContactPro_MVC.Models.Category", b =>
-                {
-                    b.HasOne("ContactPro_MVC.Models.AppUser", "AppUser")
-                        .WithMany("Categories")
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
-                });
-
             modelBuilder.Entity("ContactPro_MVC.Models.Contact", b =>
                 {
                     b.HasOne("ContactPro_MVC.Models.AppUser", "AppUser")
@@ -425,8 +363,6 @@ namespace ContactPro_MVC.Data.Migrations
 
             modelBuilder.Entity("ContactPro_MVC.Models.AppUser", b =>
                 {
-                    b.Navigation("Categories");
-
                     b.Navigation("Contacts");
                 });
 #pragma warning restore 612, 618

@@ -21,8 +21,12 @@ namespace ContactPro_MVC.Models
         public string? FullName { get { return $"{FirstName} {LastName}"; } }
 
 
-        // Make relationship to Contact Model
+        // creates relationship between Contact Model and Contacts Table
+        // can have many contacts per user via ICollection and initialize to HashSet which is also a list
+        // when contact is created, it pulls the user's ID and attaches it to the contact
+        public virtual ICollection<Contact> Contacts { get; set; } = new HashSet<Contact>();
 
-        // Make relationship to Category Model
+        // creates relationship to Category Model
+        public virtual ICollection<Category> Categories { get; set; } = new HashSet<Category>();
     }
 }
