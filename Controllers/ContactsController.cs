@@ -9,6 +9,7 @@ using ContactPro_MVC.Data;
 using ContactPro_MVC.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using ContactPro_MVC.Enums;
 
 namespace ContactPro_MVC.Controllers
 {
@@ -32,8 +33,9 @@ namespace ContactPro_MVC.Controllers
             string userId = _userManager.GetUserId(User);
 
             // c is just a chosen variable to make it easy to write the lambda expression, based on first letter 'c'ontacts
+            // this expression quickly searches the database and returns the properties based on contacts class & the user's AppUserId (foreign key), includes AppUser (virtual property created from AppUserId) in list, and organizes the list & returns when requested
             // Include method allows us to later access AppUser directly from within contacts
-            var contacts = await _context.Contacts.Where(c => c.AppUserId == userId).Include(c => c.AppUser).ToListAsync();
+            List<Contact> contacts = await _context.Contacts.Where(c => c.AppUserId == userId).Include(c => c.AppUser).ToListAsync();
             return View(contacts);
         }
 
@@ -57,9 +59,11 @@ namespace ContactPro_MVC.Controllers
         }
 
         // GET: Contacts/Create
+        [Authorize]
         public IActionResult Create()
         {
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["StatesList"] = new SelectList(Enum.GetValues(typeof(States)).Cast<States>().ToList());
+            
             return View();
         }
 
@@ -68,15 +72,26 @@ namespace ContactPro_MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,AppUserId,FirstName,LastName,BirthDate,Address1,Address2,City,State,ZipCode,Email,PhoneNumber,Created,ImageData,ImageType")] Contact contact)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,BirthDate,Address1,Address2,City,State,ZipCode,Email,PhoneNumber, ImageFile")] Contact contact)
         {
+            ModelState.Remove("AppUserId");
+
             if (ModelState.IsValid)
             {
+                contact.AppUserId = _userManager.GetUserId(User);
+                contact.Created = DateTime.UtcNow;
+
+                if(contact.BirthDate != null)
+                {
+                    // formats date for PostGreSQL
+                    contact.BirthDate = DateTime.SpecifyKind(contact.BirthDate.Value, DateTimeKind.Utc);
+                }
+
                 _context.Add(contact);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", contact.AppUserId);
+            ViewData["StatesList"] = new SelectList(Enum.GetValues(typeof(States)).Cast<States>().ToList());
             return View(contact);
         }
 

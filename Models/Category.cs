@@ -7,6 +7,7 @@ namespace ContactPro_MVC.Models
         // public key
         public int Id { get; set; }
 
+        // foreign key
         [Required]
         public string? AppUserId { get; set; }
 
