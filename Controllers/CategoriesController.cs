@@ -7,23 +7,34 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ContactPro_MVC.Data;
 using ContactPro_MVC.Models;
+using Microsoft.AspNetCore.Authorization;
+using ContactPro_MVC.Services;
+using Microsoft.AspNetCore.Identity;
+using ContactPro_MVC.Services.Interfaces;
 
 namespace ContactPro_MVC.Controllers
 {
     public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly IImageService _imageService;
 
-        public CategoriesController(ApplicationDbContext context)
+        public CategoriesController(ApplicationDbContext context, UserManager<AppUser> userManager, IImageService imageService)
         {
             _context = context;
+            _userManager = userManager;
+            _imageService = imageService;
         }
 
         // GET: Categories
+        [Authorize]
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Categories.Include(c => c.AppUser);
-            return View(await applicationDbContext.ToListAsync());
+            string userId = _userManager.GetUserId(User);
+
+            List<Category> categories = await _context.Categories.Where(c => c.AppUserId == userId).Include(c => c.AppUser).ToListAsync();
+            return View(categories);
         }
 
         // GET: Categories/Details/5
@@ -46,9 +57,10 @@ namespace ContactPro_MVC.Controllers
         }
 
         // GET: Categories/Create
+        [Authorize]
         public IActionResult Create()
         {
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id");
+            
             return View();
         }
 
@@ -56,11 +68,17 @@ namespace ContactPro_MVC.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,AppUserId,Name")] Category category)
+        public async Task<IActionResult> Create([Bind("Id,Name")] Category category)
         {
+            ModelState.Remove("AppUserId");
+            
             if (ModelState.IsValid)
             {
+                string userId = _userManager.GetUserId(User);
+                category.AppUserId = userId;
+
                 _context.Add(category);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -82,7 +100,7 @@ namespace ContactPro_MVC.Controllers
             {
                 return NotFound();
             }
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", category.AppUserId);
+            
             return View(category);
         }
 
@@ -118,7 +136,6 @@ namespace ContactPro_MVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", category.AppUserId);
             return View(category);
         }
 
@@ -155,14 +172,14 @@ namespace ContactPro_MVC.Controllers
             {
                 _context.Categories.Remove(category);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CategoryExists(int id)
         {
-          return _context.Categories.Any(e => e.Id == id);
+            return _context.Categories.Any(e => e.Id == id);
         }
     }
 }

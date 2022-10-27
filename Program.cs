@@ -2,6 +2,8 @@ using ContactPro_MVC.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ContactPro_MVC.Models;
+using ContactPro_MVC.Services.Interfaces;
+using ContactPro_MVC.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +16,12 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddControllersWithViews();
+
+// Custom Services - must be registered or will not execute at runtime
+builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddScoped<IAddressBookService, AddressBookService>();
+// default is AddControllersWithViews(), but AddMvc() makes MVC services available to system
+builder.Services.AddMvc();
 
 var app = builder.Build();
 

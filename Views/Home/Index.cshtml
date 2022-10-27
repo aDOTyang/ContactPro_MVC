@@ -1,8 +1,69 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "ContactPro";
+    Layout = "~/Views/Shared/_LayoutLanding.cshtml";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row row-cols-1 row-cols-md-2 h-100 align-items-center">
+    <div class="col mt-5 mt-md-0">
+        <div class="ms-5">
+            <h1 class="display-5 titleText">All of your <span class="textHighlight">contacts</span> in one place!</h1>
+            <h4 class="lead">Organize your life by keeping everyone in the loop. Experience the power of ContactPro!</h4>
+            <ul class="checkList">
+                <li>
+                    <i class="bi bi-check-circle-fill"></i><span>CSS and Bootstrap layout</span>
+                </li>
+                <li>
+                    <i class="bi bi-check-circle-fill"></i><span>Javascript Fundamentals</span>
+                </li>
+                <li>
+                    <i class="bi bi-check-circle-fill"></i><span>Javascript Loops</span>
+                </li>
+                <li>
+                    <i class="bi bi-check-circle-fill"></i><span>Javascript Functions</span>
+                </li>
+                <li>
+                    <i class="bi bi-check-circle-fill"></i><span>Javascript Dom Manipulation</span>
+                </li>
+                <li>
+                    <i class="bi bi-check-circle-fill"></i><span>Javascript if/then/else Logic</span>
+                </li>
+                <li>
+                    <i class="bi bi-check-circle-fill"></i><span>Boolean Logic</span>
+                </li>
+            </ul>
+            <div>
+                <a href="/app.html"
+                   class="btn btn-primary rounded-pill btn-lg mb-3"
+                   type="button">Try It Out!</a>
+            </div>
+            <div>
+                <h4>Tech Stack:</h4>
+                <div class="d-flex align-items-center mb-5">
+                    <figure>
+                        <img src="https://devicons.railway.app/i/dot-net.svg" class="devIcon" />
+                        <figcaption>ASP.NET</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="https://devicons.railway.app/i/csharp.svg" class="devIcon" />
+                        <figcaption>C#</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="https://devicons.railway.app/i/postgresql.svg" class="devIcon" />
+                        <figcaption>Postgres</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="https://devicons.railway.app/i/bootstrap.svg" class="devIcon" />
+                        <figcaption>Bootstrap</figcaption>
+                    </figure>
+                    <figure>
+                        <img src="https://devicons.railway.app/i/railway-dark.svg" class="devIcon" />
+                        <figcaption>Railway</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col order-first order-md-last">
+        <img src="~/img/undraw_make_it_rain_re_w9pc.svg" class="img-fluid" alt="app logo" />
+    </div>
 </div>

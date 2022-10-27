@@ -33,7 +33,8 @@ nav {
 
 .navText {
     color: var(--ay-primaryColorLight) !important;
-    font-family: var(--ay-titleFont)
+    font-family: var(--ay-titleFont);
+    font-weight: 300;
 }
 
 .navShadow {
@@ -46,12 +47,12 @@ main {
 
 .content {
     flex: 1 0 auto;
-    padding-top: 7.5rem;
+    padding-top: 2.5rem;
     padding-bottom: 2.5rem;
 }
 
 footer {
-    background-color: var(--ay-darkColor);
+    background-color: var(--ay-primaryColorDark);
     flex-shrink: 0;
 }
 
@@ -89,8 +90,12 @@ footer {
     width: 7rem;
 }
 
+.btnList {
+    color: var(--ay-lightColor) !important;
+}
+
 .socialIcon {
-    color: var(--ay-primaryColorDark);
+    color: var(--ay-primaryColorLight);
     opacity: 0.9;
     font-size: 2rem;
     transition: all .4s;
@@ -102,7 +107,70 @@ footer {
     }
 
 .bodyText {
-    color: var(--ay-lightColor);
     font-family: var(--ay-bodyFont);
     font-weight: 300;
 }
+
+.titleText {
+    color: var(--ay-darkColor);
+    font-family: var(--ay-titleFont);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.copyright {
+    font-size: 1rem;
+    font-family: var(--ay-bodyFont);
+    color: var(--ay-lightColor);
+    font-weight: 400;
+}
+
+.devIcon {
+    display: inline;
+    height: 3.5rem;
+    margin: 0rem .3rem;
+}
+
+.checkList {
+    list-style-type: none;
+}
+
+    .checkList > li i {
+        color: var(--ay-primaryColorDark);
+        padding-right: 0.5rem;
+    }
+
+.textHighlight {
+    color: var(--ay-primaryColorDark);
+}
+
+figcaption {
+    color: var(--cf-dark-color);
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+/* square image css start */
+
+.square-img-container {
+    position: relative;
+    background-color: var(--ay-primaryColorLight);
+    border-color: var(--ay-lightGray);
+    border-style: solid;
+}
+
+.square-img-container::after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+}
+
+.square-img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+}
+
+/* square image css end */
