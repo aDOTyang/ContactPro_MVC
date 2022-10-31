@@ -13,17 +13,17 @@
 </div>
 <div class="row g-2">
     <div class="col-12 col-md-4 p-3 sideNav">
-        <form>
+        <form asp-action="SearchContacts" asp-controller="Contacts" method="post">
             <div class="input-group">
                 <input class="form-control" type="search" name="searchString"
-                       placeholder="Search Term" />
+                       placeholder="Search by name" />
                 <input type="submit" class="btn btn-primary rounded-2" value="Search" />
             </div>
         </form>
-        <form>
+        <form asp-action="Index" asp-controller="Contacts" method="post">
             <div class="mt-5">
                 <label class="form-label fw-bold">CATEGORY FILTER</label>
-                <select name="id" asp-items="@ViewBag.CategoryId" class="form-control"
+                <select name="categoryId" asp-items="@ViewBag.CategoryId" class="form-control"
                         onchange="this.form.submit()" onfocus="this.selectedIndex=-1;this.blur();">
                     <option>All Contacts</option>
                 </select>
@@ -57,7 +57,7 @@
                                     </div>*@
                                 <div class="fs-4">
                                         <a class="me-3 editIcons" asp-action="Edit" asp-route-id="@contact.Id"><i class="bi bi-pencil-fill "></i></a>
-                                        <a class="me-3 editIcons" asp-action="#" asp-route-id="#"><i class="bi bi-envelope-fill "></i></a>
+                                        <a class="me-3 editIcons" asp-action="EmailContact" asp-route-id="@contact.Id"><i class="bi bi-envelope-fill "></i></a>
                                         <a class="me-3 editIcons" asp-action="Delete" asp-route-id="@contact.Id"><i class="bi bi-trash-fill text-danger "></i></a>
                                 </div>
                             </div>
@@ -68,3 +68,24 @@
         </div>
     </div>
 </div>
+
+@section scripts{
+    <script>
+        let message = '@(ViewBag.SwalMessage)';
+        if (!message.includes("Error") && message != '') {
+            Swal.fire({
+                backdrop: false,
+                icon: 'success',
+                title: message,
+                showConfirmButton: true
+            })
+        } else if (message.includes("Error")) {
+            Swal.fire({
+                backdrop: false,
+                icon: 'error',
+                title: 'Oops...',
+                text: message
+            })
+        }
+    </script>
+    }

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using ContactPro_MVC.Services;
 using Microsoft.AspNetCore.Identity;
 using ContactPro_MVC.Services.Interfaces;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace ContactPro_MVC.Controllers
 {
@@ -19,22 +20,77 @@ namespace ContactPro_MVC.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<AppUser> _userManager;
         private readonly IImageService _imageService;
+        private readonly IEmailSender _emailSender;
 
-        public CategoriesController(ApplicationDbContext context, UserManager<AppUser> userManager, IImageService imageService)
+        public CategoriesController(ApplicationDbContext context, UserManager<AppUser> userManager, IImageService imageService, IEmailSender emailSender)
         {
             _context = context;
             _userManager = userManager;
             _imageService = imageService;
+            _emailSender = emailSender;
         }
 
         // GET: Categories
         [Authorize]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? swalMessage = null)
         {
+            // passes sweetalert data from EmailCategory post method into the index get method
+            ViewData["SwalMessage"] = swalMessage;
+            
             string userId = _userManager.GetUserId(User);
 
             List<Category> categories = await _context.Categories.Where(c => c.AppUserId == userId).Include(c => c.AppUser).ToListAsync();
             return View(categories);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> EmailCategory(int? id)
+        {
+            // find category based on incoming id and ensure it also checks for current user
+            string appUserId = _userManager.GetUserId(User);
+            Category? category = await _context.Categories.Include(c => c.Contacts).FirstOrDefaultAsync(c => c.Id == id && c.AppUserId == appUserId);
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            List<string> emails = category!.Contacts.Select(c => c.Email).ToList()!;
+
+            EmailData emailData = new EmailData()
+            {
+                GroupName = category.Name,
+                EmailAddress = string.Join("; ", emails),
+                EmailSubject = $"Group Message: {category.Name}"
+            };
+
+            return View(emailData);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EmailCategory(EmailData emailData)
+        {
+            if (ModelState.IsValid)
+            {
+                string swalMessage = string.Empty;
+
+                try
+                {
+                    await _emailSender.SendEmailAsync(emailData!.EmailAddress, emailData!.EmailSubject, emailData!.EmailBody);
+                    swalMessage = "Success: Email sent!";
+                    return RedirectToAction("Index", "Categories", new { swalMessage });
+                }
+                catch (Exception)
+                {
+                    swalMessage = "Error: Failed to send Email.";
+                    return RedirectToAction("Index", "Categories", new { swalMessage });
+                    throw;
+                }
+            }
+            return View(emailData);
         }
 
         // GET: Categories/Details/5
@@ -60,7 +116,6 @@ namespace ContactPro_MVC.Controllers
         [Authorize]
         public IActionResult Create()
         {
-            
             return View();
         }
 
@@ -73,7 +128,7 @@ namespace ContactPro_MVC.Controllers
         public async Task<IActionResult> Create([Bind("Id,Name")] Category category)
         {
             ModelState.Remove("AppUserId");
-            
+
             if (ModelState.IsValid)
             {
                 string userId = _userManager.GetUserId(User);
@@ -100,7 +155,7 @@ namespace ContactPro_MVC.Controllers
             {
                 return NotFound();
             }
-            
+
             return View(category);
         }
 
@@ -181,5 +236,6 @@ namespace ContactPro_MVC.Controllers
         {
             return _context.Categories.Any(e => e.Id == id);
         }
+
     }
 }
