@@ -43,6 +43,10 @@ namespace ContactPro_MVC.Controllers
             // this expression quickly searches the database and returns the properties based on contacts class & the user's AppUserId (foreign key), includes AppUser (virtual property created from AppUserId) in list, and organizes the list & returns when requested
             // Include method allows us to later access AppUser directly from within contacts
             List<Contact> contacts = await _context.Contacts.Where(c => c.AppUserId == userId).Include(c => c.AppUser).Include(c => c.Categories).ToListAsync();
+
+            List<Category> userCategories = await _context.Categories.Where(c => c.AppUserId == userId).ToListAsync();
+
+            ViewData["CategoryId"] = new SelectList(userCategories, "Id", "Name");
             return View(contacts);
         }
 
@@ -145,13 +149,26 @@ namespace ContactPro_MVC.Controllers
                 return NotFound();
             }
 
-            Contact? contact = await _context.Contacts.FindAsync(id);
+            // establish who the user is and get their userId
+            string appUserId = _userManager.GetUserId(User);
+
+            // FirstOrDefault will return empty instance (rather than null) as the default value if contact not found
+            Contact? contact = await _context.Contacts.Include(c => c.Categories).FirstOrDefaultAsync(c => c.Id == id && c.AppUserId == appUserId);
+
             if (contact == null)
             {
                 return NotFound();
             }
 
             ViewData["StatesList"] = new SelectList(Enum.GetValues(typeof(States)).Cast<States>().ToList());
+
+            List<Category> categories = (await _addressBookService.GetAppUserCategoriesAsync(appUserId)).ToList();
+            // get list of IDs which are integers from database based on userId and instantiate
+            List<int> categoryIds = contact.Categories.Select(c => c.Id).ToList();
+
+            // constructor to create categories dropdown list; MultiSelectList allows for multiple selections in combination with 'multiple' property in the create form 
+            ViewData["CategoryList"] = new MultiSelectList(categories, "Id", "Name", categoryIds);
+
             return View(contact);
         }
 
@@ -160,7 +177,7 @@ namespace ContactPro_MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,AppUserId,FirstName,LastName,BirthDate,Address1,Address2,City,State,ZipCode,Email,PhoneNumber,Created,ImageFile,ImageData,ImageType")] Contact contact)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,AppUserId,FirstName,LastName,BirthDate,Address1,Address2,City,State,ZipCode,Email,PhoneNumber,Created,ImageFile,ImageData,ImageType")] Contact contact, List<int> categoryList)
         {
             if (id != contact.Id)
             {
@@ -191,8 +208,11 @@ namespace ContactPro_MVC.Controllers
                     _context.Update(contact);
                     await _context.SaveChangesAsync();
 
-                    // TODO add categories
+                    // removes current categories from contact
+                    await _addressBookService.RemoveAllContactCategoriesAsync(contact.Id);
 
+                    // add selected categories to contact
+                    await _addressBookService.AddContactToCategoriesAsync(categoryList, contact.Id);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -207,7 +227,12 @@ namespace ContactPro_MVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", contact.AppUserId);
+
+            ViewData["StatesList"] = new SelectList(Enum.GetValues(typeof(States)).Cast<States>().ToList());
+            List<Category> categories = (await _addressBookService.GetAppUserCategoriesAsync(contact.AppUserId!)).ToList();
+            List<int> categoryIds = contact.Categories.Select(c => c.Id).ToList();
+            ViewData["CategoryList"] = new MultiSelectList(categories, "Id", "Name", categoryIds);
+
             return View(contact);
         }
 

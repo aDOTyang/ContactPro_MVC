@@ -159,11 +159,11 @@ figcaption {
     border-style: solid;
 }
 
-.square-img-container::after {
-    content: "";
-    display: block;
-    padding-bottom: 100%;
-}
+    .square-img-container::after {
+        content: "";
+        display: block;
+        padding-bottom: 100%;
+    }
 
 .square-img {
     position: absolute;
@@ -174,3 +174,26 @@ figcaption {
 }
 
 /* square image css end */
+
+.editIcons {
+    font-size: 1.5rem;
+    opacity: .9;
+    color: var(--ay-primaryColorDark);
+}
+
+    .editIcons:hover {
+        opacity: 1;
+        color: var(--ay-primaryColor);
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+.sideNav {
+    border-radius: 25px;
+    border-color: var(--ay-lightColor);
+    border-style: solid;
+    border-width: 3px;
+    background-color: var(--ay-lightGray);
+    padding: 2rem, 1rem, 2rem, 1rem;
+    height: fit-content;
+}

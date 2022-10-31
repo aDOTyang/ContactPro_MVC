@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using ContactPro_MVC.Models;
 using ContactPro_MVC.Services.Interfaces;
 using ContactPro_MVC.Services;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,11 @@ builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireCo
 // Custom Services - must be registered or will not execute at runtime
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IAddressBookService, AddressBookService>();
+builder.Services.AddScoped<IEmailSender, EmailService>();
+
+// takes mail settings from secrets.JSON and applies them to the class
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
+
 // default is AddControllersWithViews(), but AddMvc() makes MVC services available to system
 builder.Services.AddMvc();
 
