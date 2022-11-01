@@ -6,7 +6,7 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>EDIT CONTACT</h1>
+<h1 class="text-light">EDIT CONTACT</h1>
 <div class="p-3 border border-2 shadow-lg bg-light">
     <form asp-action="Edit" asp-controller="Contacts" method="post" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -15,7 +15,7 @@
         <input type="hidden" asp-for="Created" />
         <input type="hidden" asp-for="ImageData" />
         <input type="hidden" asp-for="ImageType" />
-        <div class="row g-3 p-2">
+        <div class="row g-3 p-2 text-dark">
             <div class="col-12 col-lg-4">
                 <div class="square-img-container">
                     <img class="square-img" src="@ImageService.ConvertByteArrayToFile(Model.ImageData!,Model.ImageType!)" id="contactImage" />
@@ -26,7 +26,7 @@
                            onchange="document.getElementById('contactImage').src= window.URL.createObjectURL(this.files[0])" />
                 </div>
             </div>
-            <div class="col-12 col-lg-8">
+            <div class="col-12 col-lg-8 text-dark">
                 <div class="row">
                     <div class="col-12 col-lg-6 ">
                         <label asp-for="FirstName" class="form-label">First Name</label>

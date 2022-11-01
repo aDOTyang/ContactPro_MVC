@@ -52,9 +52,6 @@
                                 <div class="card-text">
                                     <span class="fw-bold me-2">Email:</span>@contact.Email
                                 </div>
-@*                                    <div class="card-text">
-                                        <span asp-items="ViewBag.CategoryList" class="fw-bold me-2">Categories:</span>@contact.Categories.ToList()
-                                    </div>*@
                                 <div class="fs-4">
                                         <a class="me-3 editIcons" asp-action="Edit" asp-route-id="@contact.Id"><i class="bi bi-pencil-fill "></i></a>
                                         <a class="me-3 editIcons" asp-action="EmailContact" asp-route-id="@contact.Id"><i class="bi bi-envelope-fill "></i></a>

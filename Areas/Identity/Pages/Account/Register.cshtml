@@ -6,8 +6,8 @@
 
 <div class="row d-flex justify-content-center">
     <div class="col-md-6">
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Register to start organizing your contacts!</h2>
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="text-dark">
+            <h2>Register an account to start organizing your contacts!</h2>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-floating my-2">
@@ -37,7 +37,7 @@
             </div>
             <hr />
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary my-2">Register</button>
-            <a asp-action="Index" asp-controller="Home" class="w-100 btn btn-lg btn-outline-secondary my-2">Nevermind</a>
+            <a asp-action="Index" asp-controller="Home" class="w-100 btn btn-lg btn-secondary my-2">Nevermind</a>
         </form>
     </div>
 </div>

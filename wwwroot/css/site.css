@@ -1,4 +1,18 @@
 :root {
+    --ay-primaryColor: rgba(63, 110, 140, 1);
+    --ay-primaryColorDark: rgba(1, 39, 63, 1);
+    --ay-primaryColorLight: rgba(242, 172, 87, 1);
+    --ay-secondaryColor: rgba(225, 225, 225);
+    --ay-darkColor: rgba(37,37,37,1);
+    --ay-lightGray: #d9d9d9;
+    --ay-lightColor: rgba(173, 212, 216, 1);
+    --ay-titleFont: "Bebas Neue", Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    --ay-subtitleFont: 'Fira Sans', sans-serif;
+    --ay-bodyFont: 'Roboto', sans-serif;
+}
+
+/* template */
+/*:root {
     --ay-primaryColor: #0869b8;
     --ay-primaryColorDark: #002a4e;
     --ay-primaryColorLight: #edf5fc;
@@ -9,31 +23,31 @@
     --ay-lightColor: #eeeeee;
     --ay-titleFont: 'Fira Sans', sans-serif;
     --ay-bodyFont: 'Roboto', sans-serif;
-}
+}*/
 
 html, body {
     height: 100%;
 }
 
 body {
-    background-color: var(--ay-primaryColorLight);
+    background-color: var(--ay-primaryColor);
     display: flex;
     flex-direction: column;
     margin-bottom: 60px;
     font-family: var(--ay-bodyFont);
     font-size: 1.2rem;
     font-weight: 400;
-    color: var(--ay-darkColor);
+    color: var(--ay-secondaryColor);
 }
 
 nav {
     background-color: var(--ay-primaryColorDark);
-    font-family: var(--ay-titleFont);
+    font-family: var(--ay-subtitleFont);
 }
 
 .navText {
-    color: var(--ay-primaryColorLight) !important;
-    font-family: var(--ay-titleFont);
+    color: var(--ay-secondaryColor) !important;
+    font-family: var(--ay-subtitleFont);
     font-weight: 300;
 }
 
@@ -42,13 +56,13 @@ nav {
 }
 
 main {
-    background-color: var(--ay-primaryColorLight);
+    background-color: var(--ay-primaryColor);
 }
 
 .content {
     flex: 1 0 auto;
-    padding-top: 2.5rem;
-    padding-bottom: 2.5rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
 }
 
 footer {
@@ -71,13 +85,13 @@ footer {
 
 .btn-primary {
     color: white !important;
-    background-color: var(--ay-primaryColor) !important;
+    background-color: var(--ay-primaryColorDark) !important;
     border-color: var(--ay-secondaryColor);
 }
 
     .btn-primary:hover {
         filter: brightness(1.2) !important;
-        border-color: var(--ay-primaryColorDark);
+        border-color: var(--ay-primaryColor);
     }
 
     .btn-primary:active, .btn-primary:focus {
@@ -95,14 +109,14 @@ footer {
 }
 
 .socialIcon {
-    color: var(--ay-primaryColorLight);
+    color: var(--ay-secondaryColor);
     opacity: 0.9;
     font-size: 2rem;
     transition: all .4s;
 }
 
     .socialIcon:hover {
-        color: var(--ay-primaryColor);
+        color: var(--ay-primaryColorLight);
         opacity: 1;
     }
 
@@ -114,14 +128,14 @@ footer {
 .titleText {
     color: var(--ay-darkColor);
     font-family: var(--ay-titleFont);
-    font-weight: 600;
+    font-weight: 400;
     text-transform: uppercase;
 }
 
 .copyright {
     font-size: 1rem;
     font-family: var(--ay-bodyFont);
-    color: var(--ay-lightColor);
+    color: var(--ay-secondaryColor);
     font-weight: 400;
 }
 
@@ -133,15 +147,16 @@ footer {
 
 .checkList {
     list-style-type: none;
+    color: var(--ay-primaryColorDark)
 }
 
     .checkList > li i {
-        color: var(--ay-primaryColorDark);
+        color: var(--ay-primaryColorLight);
         padding-right: 0.5rem;
     }
 
 .textHighlight {
-    color: var(--ay-primaryColorDark);
+    color: var(--ay-primaryColorLight);
 }
 
 figcaption {
@@ -175,6 +190,14 @@ figcaption {
 
 /* square image css end */
 
+.card-text {
+    color: var(--ay-primaryColorDark);
+}
+
+.card-title {
+    color: var(--ay-primaryColorDark);
+}
+
 .editIcons {
     font-size: 1.5rem;
     opacity: .9;
@@ -193,7 +216,8 @@ figcaption {
     border-color: var(--ay-lightColor);
     border-style: solid;
     border-width: 3px;
-    background-color: var(--ay-lightGray);
+    background-color: var(--ay-primaryColorDark);
+    color: var(--ay-primaryColorLight);
     padding: 2rem, 1rem, 2rem, 1rem;
     height: fit-content;
 }

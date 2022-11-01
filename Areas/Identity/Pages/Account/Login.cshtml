@@ -9,7 +9,7 @@
 <div class="row d-flex justify-content-center">
     <div class="col-md-6">
         <section>
-            <form id="account" method="post">
+            <form id="account" method="post" class="text-dark">
                 <h2>Log in to view your Contacts</h2>
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -32,24 +32,34 @@
                     </div>
                 </div>
                 <div>
-                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary my-2">Log in</button>
-                </div>
-                <div class="mt-3">
-                    <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
-                    </p>
-                    <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">New user? Register your account!</a>
-                    </p>
-                    <p>
-                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
-                    </p>
+                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary my-2 rounded-pill">Log in</button>
                 </div>
             </form>
         </section>
+        <div class="mb-1 text-center">
+            <form class="" id="account" method="post">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-12 btn-block">
+                            <button type="submit" style="width:inherit;height:min-content" class="btn btn-lg btn-primary rounded-pill me-2" name="demoLoginEmail" value="DemoLoginEmail">Demo Login</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="mt-3">
+                <p>
+                    <a id="forgot-password" asp-page="./ForgotPassword" class="text-light">Forgot your password?</a>
+                </p>
+                <p>
+                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="text-light">New user? Register your account!</a>
+                </p>
+                <p>
+                    <a id="resend-confirmation" asp-page="./ResendEmailConfirmation" class="text-light">Resend email confirmation</a>
+                </p>
+            </div>
+        </div>
     </div>
     <div class="col-md-6 col-md-offset-2">
-        
     </div>
 </div>
 

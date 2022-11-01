@@ -1,13 +1,51 @@
-﻿@model ContactPro_MVC.Models.Category
+﻿@using ContactPro_MVC.Services.Interfaces
+@model ContactPro_MVC.Models.Category
+@inject IImageService ImageService
 
 @{
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
+<div class="row">
+    <div class="col-12 col-md-8 offset-md-2">
+        <h3>Are you sure you want to delete this Category?</h3>
+        <p class="text-lead text-dark">This category will be permanently deleted.</p>
+        <div class="card mb-3">
+            <div class="row g-0">
+@*                <div class="col-md-4 square-img-container">
+                    <img src="@ImageService.ConvertByteArrayToFile(Model.ImageData!,Model.ImageType!)" class="square-img rounded-start">
+                </div>*@
+                @*<div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">@Model.FullName</h5>
+                        <address class="card-text">
+                            @Model.Address1
+                            @if (!string.IsNullOrEmpty(@Model.Address2))
+                            {
+                                @Model.Address2
+                                <br />
+                            }
+                            @Model.City, @Model.State @Model.ZipCode
+                        </address>
+                        <div class="card-text">
+                            <span class="fw-bold me-2">Phone:</span>@Model.PhoneNumber
+                        </div>
+                        <div class="card-text">
+                            <span class="fw-bold me-2">Email:</span>@Model.Email
+                        </div>
+                    </div>
+                </div>*@
+            </div>
+        </div>
+        <form asp-action="Delete" asp-route-id="@Model.Id" class="d-flex justify-content-between">
+            <input hidden asp-for="Id" />
+            <a asp-action="Index" asp-controller="Contacts" class="btn btn-primary rounded-pill btnLink">Cancel</a>
+            <button type="submit" class="btn btn-danger rounded-pill btnLink">Delete</button>
+        </form>
+    </div>
+</div>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
+@*<div>
     <h4>Category</h4>
     <hr />
     <dl class="row">
@@ -24,4 +62,4 @@
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>
-</div>
+</div>*@

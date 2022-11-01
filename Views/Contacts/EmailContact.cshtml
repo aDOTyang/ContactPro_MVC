@@ -5,29 +5,32 @@
 *@
 @{
 }
-<h1>Email Contact</h1>
 
-<div>
+<div class="card">
     <form asp-action="EmailContact" asp-controller="Contacts" method="post">
         <input type="hidden" asp-for="@Model.EmailData!.GroupName" />
-        <div class="row mb-5">
-            <div class="col-md-6">
-                <label asp-for="@Model.EmailData!.EmailAddress" class="form-label">To: </label>
-            <textarea typeof="email" readonly class="form-control" asp-for="@Model.EmailData!.EmailAddress" rows="3"></textarea>
-            </div>
+        <div class="card-header">
+            <h3 class="titleText fs-4 mt-2">Email Contact: @Model.Contact!.FullName</h3>
         </div>
-        <div class="row">
-            <div class="col">
-                <label asp-for="@Model.EmailData!.EmailSubject" class="form-label">Subject: </label>
-                <input type="text" class="form-control" asp-for="@Model.EmailData!.EmailSubject"> 
+        <div class="card-body">
+            <div class="row row-cols-1 text-dark">
+                <div class="col">
+                    <label asp-for="@Model.EmailData!.EmailAddress" class="form-label">To: </label>
+                    <textarea typeof="email" readonly class="form-control" asp-for="@Model.EmailData!.EmailAddress" rows="3"></textarea>
+                </div>
+                <div class="col">
+                    <label asp-for="@Model.EmailData!.EmailSubject" class="form-label mt-2">Subject: </label>
+                    <input type="text" class="form-control" asp-for="@Model.EmailData!.EmailSubject">
+                </div>
+                <div class="col">
+                    <label asp-for="@Model.EmailData!.EmailBody" class="form-label mt-2">Message:</label>
+                    <textarea typeof="email" class="form-control" asp-for="@Model.EmailData!.EmailBody" rows="5"></textarea>
+                </div>
             </div>
-            <div class="col">
-                <label asp-for="@Model.EmailData!.EmailBody" class="form-label"></label>
-                <textarea typeof="email" class="form-control" asp-for="@Model.EmailData!.EmailBody" rows="5"></textarea>
-            </div>
-            <div class="col">
-               <input class="btn btn-primary" type="submit" value="Send"/>
-            </div>
+            <div class="card-footer d-flex justify-content-between p-3">
+                <a asp-action="Index" asp-controller="Contacts" class="btn btn-primary rounded-pill btnLink" type="submit" value="Send">Back to List</a>
+                    <button type="submit" class="btn btn-primary rounded-pill btnLink">Save</button>
+                </div>
         </div>
     </form>
 </div>
