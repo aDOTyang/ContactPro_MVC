@@ -10,6 +10,7 @@ namespace ContactPro_MVC.Models
         // foreign key
         [Required]
         public string? AppUserId { get; set; }
+        public string? ContactId { get; set; }
 
         [Required]
         [Display(Name = "Category Name")]

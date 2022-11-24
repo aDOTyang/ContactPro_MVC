@@ -12,6 +12,7 @@ namespace ContactPro_MVC.Models
         // foreign key - is passed through database as a string for hashing purposes
         [Required]
         public string? AppUserId { get; set; }
+        public string? CategoryId { get; set; }
 
         [Required]
         [Display(Name = "First Name")]

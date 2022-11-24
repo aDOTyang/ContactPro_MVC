@@ -5,10 +5,41 @@
 }
 
 <div class="row">
-    <div class="col-12 text-end mb-2">
+    <div class="col-12 text-start mb-2">
         <a class="btn btn-primary rounded-pill" asp-action="Create" asp-controller="Categories">New Category</a>
     </div>
 </div>
+<div class="col-12 col-md-8">
+    <div class="row row-cols-1 g-3">
+        @foreach (Category category in Model)
+        {
+            <div class="col">
+                <div class="card mb-3">
+                    <div class="row g-0">
+                        <div class="col-md-12">
+                            <div class="card-body border-5 border-secondary shadow-lg">
+                                <h5>
+                                    <a class="card-title" asp-controller="Categories" asp-action="Details" asp-route-id="@category.Id">@category.Name</a>
+                                </h5>
+                                <div class="card-text">
+                                    @{string contactCount = category.Contacts.Count() == 1 ? "contact in this Category" : "contacts in this Category"; }
+                                    <span class="me-2">You have @category.Contacts.Count()</span>@contactCount
+                                </div>
+                                <div class="fs-4">
+                                    <a class="me-3 editIcons" asp-action="Edit" asp-route-id="@category.Id"><i class="bi bi-pencil-fill "></i></a>
+                                    <a class="me-3 editIcons" asp-action="EmailContact" asp-route-id="@category.Id"><i class="bi bi-envelope-fill "></i></a>
+                                    <a class="me-3 editIcons" asp-action="Delete" asp-route-id="@category.Id"><i class="bi bi-trash-fill text-danger "></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@*
 <div class="row">
     <div class="col-12">
         <table class="table table-striped table-secondary table-hover border border-1 border-dark shadow-lg">
@@ -36,7 +67,7 @@
             </tbody>
         </table>
     </div>
-</div>
+</div>*@
 
 @section scripts{
     <!--Sweet Alerts-->

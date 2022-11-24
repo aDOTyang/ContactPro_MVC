@@ -39,7 +39,7 @@ namespace ContactPro_MVC.Controllers
             
             string userId = _userManager.GetUserId(User);
 
-            List<Category> categories = await _context.Categories.Where(c => c.AppUserId == userId).Include(c => c.AppUser).ToListAsync();
+            List<Category> categories = await _context.Categories.Where(c => c.AppUserId == userId).Include(c => c.AppUser).Include(c=>c.Contacts).ToListAsync();
             return View(categories);
         }
 
@@ -102,7 +102,7 @@ namespace ContactPro_MVC.Controllers
             }
 
             var category = await _context.Categories
-                .Include(c => c.AppUser)
+                .Include(c => c.AppUser).Include(c=>c.Contacts)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (category == null)
             {
