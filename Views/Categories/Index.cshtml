@@ -5,12 +5,12 @@
 }
 
 <div class="row">
-    <div class="col-12 text-start mb-2">
-        <a class="btn btn-primary rounded-pill" asp-action="Create" asp-controller="Categories">New Category</a>
+    <div class="col-12 text-start mb-3">
+        <a class="btn btn-primary rounded-pill" asp-action="Create" asp-controller="Categories">Add New Category</a>
     </div>
 </div>
-<div class="col-12 col-md-8">
-    <div class="row row-cols-1 g-3">
+<div class="col-12">
+    <div class="row row-cols-2">
         @foreach (Category category in Model)
         {
             <div class="col">
